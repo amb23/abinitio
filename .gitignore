@@ -2,3 +2,4 @@
 build*
 dist*
 abinitio.egg-info*
+files.txt
