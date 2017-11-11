@@ -5,7 +5,7 @@ import pandas as pd
 
 def uniform_dist(n=1000, d=1, rotation=None):
     sample = pd.DataFrame(np.random.rand(n, d)).subtract(
-        pd.Series([0,5, 0.5]),
+        pd.Series([0.5, 0.5]),
         axis=1
     )
 

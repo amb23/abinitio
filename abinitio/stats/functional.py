@@ -104,18 +104,17 @@ class MultiStoppingCondition(IStoppingCondition):
             if 'any' then only one must be.
         """
         self._conditions = conditions
-        self._when = when
+        self._when = getattr(np, when)
 
     def handle_update(self, value):
         for condition in self._conditions:
             condition.handle_update(value)
 
     def should_stop(self):
-        return getattr(np, self._when)(
-            [
-                condition.should_stop() for condition in self._conditions
-            ]
-        )
+        sub_should_stop = [
+            condition.should_stop() for condition in self._conditions
+        ]
+        return self._when(sub_should_stop)
 
 
 class StoppingCondition(MultiStoppingCondition):
@@ -124,13 +123,13 @@ class StoppingCondition(MultiStoppingCondition):
     difference is suitably small
     """
 
-    def __init__(self, max_iterations=1000, min_difference=1e-5):
+    def __init__(self, max_iterations=100, min_difference=1e-5):
         super(StoppingCondition, self).__init__(
-            [
+            conditions=[
                 IterationStoppingCondition(max_iterations=max_iterations),
                 DifferenceStoppingCondition(min_difference=min_difference)
             ],
-            'any'
+            when='any'
         )
 
 

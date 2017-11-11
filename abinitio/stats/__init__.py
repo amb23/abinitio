@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 
-from . import functional
+from abinitio.stats import functional
 
 
 def sample_expectation(samples, g):
